@@ -54,7 +54,7 @@ export default {
       title: 'Bookmarks',
       name: 'bookmarks',
       type: 'array',
-            of:[
+      of:[
         {
           type:'reference',
           to:[{type:'post'}]
