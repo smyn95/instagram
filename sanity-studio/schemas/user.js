@@ -6,22 +6,22 @@ export default {
     {
       title: 'Username', // studio UI
       name: 'username', //  DB접근용,  key
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Name',
       name: 'name',
-      type: 'string'
+      type: 'string',
     },
     {
       title: 'Email',
       name: 'email',
-      type: 'string'
+      type: 'string',
     },
     {
       title:'Image',
       name:'image',
-      type:'string'
+      type:'string',
     },
     {
       title:'Following',
@@ -30,11 +30,11 @@ export default {
       of:[
         {
           type:'reference',
-          to:[{type:'user'}]
-        }
+          to:[{type:'user'}],
+        },
       ],
       // 중복 허용 X
-      validation: Rule => Rule.unique()
+      validation: Rule => Rule.unique(),
     },
     // 나를 팔로잉 하는 사람들
         {
@@ -44,11 +44,11 @@ export default {
       of:[
         {
           type:'reference',
-          to:[{type:'user'}]
-        }
+          to:[{type:'user'}],
+        },
       ],
       // 나의 팔로워는 고유, 중복 허용 X
-      validation: Rule => Rule.unique()
+      validation: Rule => Rule.unique(),
     },
     {
       title: 'Bookmarks',
@@ -57,10 +57,16 @@ export default {
       of:[
         {
           type:'reference',
-          to:[{type:'post'}]
-        }
+          to:[{type:'post'}],
+        },
       ],
-      validation: Rule => Rule.unique()
-    }
+      validation: Rule => Rule.unique(),
+    },
   ],
+  preview: {
+    select: {
+      title: 'name',
+      subtitle: 'username',
+    },
+  },
 }
