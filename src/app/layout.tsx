@@ -1,3 +1,4 @@
+import NavBar from '@/components/navbar'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google'
@@ -16,7 +17,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={openSans.className}>{children}</body>
+      <body className='w-full max-w-screen-xl overflow-auto mx-auto'>
+        <header className='sticky top-0 bg-white z-10 border-b'>
+          <NavBar />
+        </header>
+        <main>{children}</main>
+      </body>
     </html>
   )
 }
