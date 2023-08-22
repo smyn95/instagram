@@ -2,6 +2,7 @@ import NavBar from '@/components/navbar'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Open_Sans } from 'next/font/google'
+import AuthSession from '@/context/authContext'
 
 const openSans = Open_Sans({ subsets: ['latin'] })
 
@@ -16,12 +17,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={openSans.calssName}>
       <body className='w-full max-w-screen-xl overflow-auto mx-auto'>
-        <header className='sticky top-0 bg-white z-10 border-b'>
-          <NavBar />
-        </header>
-        <main>{children}</main>
+        <AuthSession>
+          <header className='sticky top-0 bg-white z-10 border-b'>
+            <NavBar />
+          </header>
+          <main>{children}</main>
+        </AuthSession>
       </body>
     </html>
   )
