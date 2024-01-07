@@ -41,7 +41,26 @@ export default function NavBar() {
         <h1 className="text-3xl font-bold">Instagram</h1>
       </Link>
       <nav>
+        <ul className="flex gap-4 items-center p-4">
+          {menu.map(({ href, icon, clickedIcon }) => (
+            <li key={href}>
+              <Link href={href}>{pathName === href ? clickedIcon : icon}</Link>
+            </li>
+          ))}
+          {user && (
+            <li>
+              <Link href={`/user/${user.username}`}>
+                <Avatar image={user.image} />
+              </Link>
+            </li>
           )}
+          <li>
+            {session ? (
+              <ColorButton text="Sign Out" onClick={() => signOut()} />
+            ) : (
+              <ColorButton text="Sign In" onClick={() => signIn()} />
+            )}
+          </li>
         </ul>
       </nav>
     </div>
