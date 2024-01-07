@@ -1,7 +1,7 @@
 export default function SearchPage() {
-    return (
-        <>
-            <div>SearchPage</div>
-        </>
-    )
+  return (
+    <>
+      <div>SearchPage</div>
+    </>
+  );
 }

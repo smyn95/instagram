@@ -1,5 +1,5 @@
 import { NextAuthOptions } from "next-auth";
-import GoogleProvider from 'next-auth/providers/google';
+import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -15,12 +15,12 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         session.user = {
           ...user,
-          username: user.email?.split('@')[0] || '',
-        }
+          username: user.email?.split("@")[0] || "",
+        };
       }
-    return session
+      return session;
+    },
   },
-},
   pages: {
     signIn: "/auth/signin",
   },
