@@ -10,6 +10,7 @@
     "format": "next lint --fix && prettier --write ."
   },
   "dependencies": {
+    "@sanity/client": "^6.10.0",
     "@types/node": "20.4.5",
     "@types/react": "18.2.17",
     "@types/react-dom": "18.2.7",
@@ -18,6 +19,7 @@
     "eslint-config-next": "13.4.12",
     "next": "14.0.3",
     "next-auth": "^4.24.5",
+    "next-sanity-client": "^1.0.7",
     "postcss": "8.4.27",
     "react": "^18",
     "react-dom": "^18",
@@ -26,9 +28,9 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
-    "prettier": "^3.0.0",
-    "prettier-plugin-tailwindcss": "^0.4.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^5.0.0"
+    "eslint-plugin-prettier": "^5.0.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.4.0"
   }
 }
