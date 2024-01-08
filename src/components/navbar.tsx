@@ -29,8 +29,7 @@ const menu = [
     clickedIcon: <NewFillIcon />,
   },
 ];
-
-export default function NavBar() {
+export default function Navbar() {
   const pathName = usePathname();
   const { data: session } = useSession();
   const user = session?.user;
@@ -38,27 +37,29 @@ export default function NavBar() {
   return (
     <div className="flex justify-between items-center px-6">
       <Link href="/">
-        <h1 className="text-3xl font-bold">Instagram</h1>
+        <h1 className="text-3xl font-bold">Instantgram</h1>
       </Link>
       <nav>
         <ul className="flex gap-4 items-center p-4">
-          {menu.map(({ href, icon, clickedIcon }) => (
-            <li key={href}>
-              <Link href={href}>{pathName === href ? clickedIcon : icon}</Link>
+          {menu.map((item) => (
+            <li key={item.href}>
+              <Link href={item.href}>
+                {pathName === item.href ? item.clickedIcon : item.icon}
+              </Link>
             </li>
           ))}
           {user && (
             <li>
               <Link href={`/user/${user.username}`}>
-                <Avatar image={user.image} />
+                <Avatar image={user.image} size="small" highlight />
               </Link>
             </li>
           )}
           <li>
             {session ? (
-              <ColorButton text="Sign Out" onClick={() => signOut()} />
+              <ColorButton text="Sign out" onClick={() => signOut()} />
             ) : (
-              <ColorButton text="Sign In" onClick={() => signIn()} />
+              <ColorButton text="Sign in" onClick={() => signIn()} />
             )}
           </li>
         </ul>
