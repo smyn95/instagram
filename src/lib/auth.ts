@@ -10,17 +10,24 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    async signIn({user: {id, email, name, image}}) {
+    async signIn({ user: { id, email, name, image } }) {
       if (!email) {
         return false;
       }
       adduser({
-        id, email, name: name||'', image, username: email.split('@')[0],
+        id,
+        email,
+        name: name || "",
+        image,
+        username: email.split("@")[0],
       });
-      return true
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
     },
     async session({ session }) {
-      console.log('session', session);
+      console.log("session", session);
       const user = session?.user;
 
       if (user) {
