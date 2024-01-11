@@ -31,5 +31,5 @@ export async function getUserByUsername(username: string) {
       followers[]->{username,image},
       "bookmarks":bookmarks[]->_id
     }`,
-  )
+  );
 }
