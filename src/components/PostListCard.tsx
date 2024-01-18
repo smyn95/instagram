@@ -1,8 +1,13 @@
+"use client";
+
 import { SimplePost } from "@/model/post";
 import Image from "next/image";
 import Avatar from "./Avatar";
 import ActionBar from "./ActionBar";
 import CommentForm from "./CommentForm";
+import { useState } from "react";
+import ModalPortal from "./ui/ModalPortal";
+import PostModal from "./PostModal";
 
 type Props = {
   post: SimplePost;
@@ -11,6 +16,8 @@ type Props = {
 
 export default function PostListCard({ post, priority = false }: Props) {
   const { userImage, username, image, createdAt, likes, text } = post;
+  const [openModal, setOpenModal] = useState(false);
+
   return (
     <article className="rounded-lg shadow-md border border-gray-200">
       <div className="flex items-center p-2">
@@ -24,6 +31,9 @@ export default function PostListCard({ post, priority = false }: Props) {
         width={500}
         height={500}
         priority={priority}
+        onClick={() => {
+          setOpenModal(true);
+        }}
       />
       <ActionBar
         likes={likes}
@@ -32,6 +42,13 @@ export default function PostListCard({ post, priority = false }: Props) {
         createdAt={createdAt}
       />
       <CommentForm />
+      {openModal && (
+        <ModalPortal>
+          <PostModal onClose={() => setOpenModal(false)}>
+            <p>포스트 상세</p>
+          </PostModal>
+        </ModalPortal>
+      )}
     </article>
   );
 }
