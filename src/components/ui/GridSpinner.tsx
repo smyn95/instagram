@@ -4,7 +4,7 @@ const GridLoader = dynamic(
   () => import("react-spinners").then((lib) => lib.GridLoader),
   {
     ssr: false,
-  },
+  }
 );
 
 type Props = {
