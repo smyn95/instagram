@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { getFollowingPostsOf } from "@/service/post";
+import { getFollowingPostsOf } from "@/service/posts";
 import { getUserByUsername } from "@/service/user";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
@@ -13,6 +13,6 @@ export async function GET() {
   }
 
   return getFollowingPostsOf(user.username).then((data) =>
-    NextResponse.json(data),
+    NextResponse.json(data)
   );
 }

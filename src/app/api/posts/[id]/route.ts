@@ -1,5 +1,5 @@
 import { authOptions } from "@/lib/auth";
-import { getPost } from "@/service/post";
+import { getPost } from "@/service/posts";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
