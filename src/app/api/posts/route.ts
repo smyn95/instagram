@@ -13,6 +13,6 @@ export async function GET() {
   }
 
   return getFollowingPostsOf(user.username).then((data) =>
-    NextResponse.json(data)
+    NextResponse.json(data),
   );
 }
