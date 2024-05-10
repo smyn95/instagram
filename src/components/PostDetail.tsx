@@ -1,10 +1,10 @@
 import { FullPost, SimplePost } from "@/model/post";
 import Image from "next/image";
 import userSWR from "swr";
+import ActionBar from "./ActionBar";
 import Avatar from "./Avatar";
 import CommentForm from "./CommentForm";
 import PostUserAvatar from "./PostUserAvatar";
-import ActionBar from "./ActionBar";
 
 type Props = {
   post: SimplePost;
@@ -44,10 +44,10 @@ export default function PostDetail({ post }: Props) {
                       <span>{comment}</span>
                     </div>
                   </li>
-                ),
+                )
               )}
           </ul>
-          <ActionBar likes={likes} username={username} createdAt={createdAt} />
+          <ActionBar post={post} />
           <CommentForm />
         </div>
       </section>

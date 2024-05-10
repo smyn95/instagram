@@ -2,14 +2,13 @@
 
 import { SimplePost } from "@/model/post";
 import Image from "next/image";
-import Avatar from "./Avatar";
+import { useState } from "react";
 import ActionBar from "./ActionBar";
 import CommentForm from "./CommentForm";
-import { useState } from "react";
-import ModalPortal from "./ui/ModalPortal";
-import PostModal from "./PostModal";
 import PostDetail from "./PostDetail";
+import PostModal from "./PostModal";
 import PostUserAvatar from "./PostUserAvatar";
+import ModalPortal from "./ui/ModalPortal";
 
 type Props = {
   post: SimplePost;
@@ -34,12 +33,7 @@ export default function PostListCard({ post, priority = false }: Props) {
           setOpenModal(true);
         }}
       />
-      <ActionBar
-        likes={likes}
-        username={username}
-        text={text}
-        createdAt={createdAt}
-      />
+      <ActionBar post={post} />
       <CommentForm />
       {openModal && (
         <ModalPortal>
