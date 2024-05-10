@@ -16,13 +16,14 @@ type Props = {
 export default function ActionBar({ post }: Props) {
   const { id, likes, username, text, createdAt } = post;
 
-  const { mutate } = useSWRConfig();
   const { data: session } = useSession();
   const user = session?.user;
 
-  const liked = user ? likes.includes(user?.username) : false;
+  const liked = user ? likes.includes(user.username) : false;
+
   const [bookmarked, setBookmarked] = useState(false);
 
+  const { mutate } = useSWRConfig();
   const handleLike = (like: boolean) => {
     fetch("api/likes", {
       method: "PUT",

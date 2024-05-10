@@ -1,25 +1,27 @@
-import { SimplePost } from "@/model/post";
+import post from "../../sanity-studio/schemas/post";
+import { SimplePost } from "./../model/post";
 import { client, urlFor } from "./sanity";
 
 const simplePostProjection = `
-  ...,
-  "username" : author->username,
-  "userImage" : author->image,
-  "likes" : likes[]->username,
-  "image": photo,
-  "text": comments[0].comment,
-  "comments": count(comments),
-  "id":_id,
-  "createdAt":_createdAt
+    ...,
+    "username": author->username,
+    "userImage": author->image,
+    "image": photo,
+    "likes": likes[]->username,
+    "text": comments[0].comment,
+    "comments": count(comments),
+    "id":_id,
+    "createdAt":_createdAt
 `;
 
 export async function getFollowingPostsOf(username: string) {
   return client
     .fetch(
-      `*[_type == "post" && author->username == "${username}" 
-  || author._ref in *[_type == "user" && username == "${username}"].following[]._ref]
-  | order(_createdAt desc) {${simplePostProjection}}
-  `,
+      `*[_type =="post" && author->username == "${username}"
+          || author._ref in *[_type == "user" && username == "${username}"].following[]._ref]
+          | order(_createdAt desc){
+          ${simplePostProjection}
+        }`
     )
     .then(mapPosts);
 }
@@ -36,7 +38,7 @@ export async function getPost(id: string) {
       comments[]{comment, "username": author->username, "image": author->image},
       "id":_id,
       "createdAt":_creatdAt
-    }`,
+    }`
     )
     .then((post) => ({ ...post, image: urlFor(post.image) }));
 }
@@ -47,18 +49,17 @@ export async function getPostsOf(username: string) {
       `*[_type == "post" && author->username == "${username}"]
       | order(_createdAt desc){
         ${simplePostProjection}
-      }`,
+      }`
     )
     .then(mapPosts);
 }
-
 export async function getLikedPostsOf(username: string) {
   return client
     .fetch(
       `*[_type == "post" && "${username}" in likes[]->username]
       | order(_createdAt desc){
         ${simplePostProjection}
-      }`,
+      }`
     )
     .then(mapPosts);
 }
@@ -68,7 +69,7 @@ export async function getSavedPostsOf(username: string) {
       `*[_type == "post" && _id in *[_type=="user" && username=="${username}"].bookmarks[]._ref]
       | order(_createdAt desc){
         ${simplePostProjection}
-      }`,
+      }`
     )
     .then(mapPosts);
 }
@@ -84,7 +85,7 @@ export async function likePost(postId: string, userId: string) {
   return client
     .patch(postId) //
     .setIfMissing({ likes: [] })
-    .append("like", [
+    .append("likes", [
       {
         _ref: userId,
         _type: "reference",
@@ -92,9 +93,10 @@ export async function likePost(postId: string, userId: string) {
     ])
     .commit({ autoGenerateArrayKeys: true });
 }
+
 export async function dislikePost(postId: string, userId: string) {
   return client
-    .patch(postId) //
+    .patch(postId)
     .unset([`likes[_ref=="${userId}"]`])
     .commit();
 }
