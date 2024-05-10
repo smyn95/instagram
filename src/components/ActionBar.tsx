@@ -1,13 +1,13 @@
-import { parseDate } from "@/utill/date";
-import BookmarkIcon from "./ui/icons/BookmarkIcon";
-import HeartIcon from "./ui/icons/HeartIcon";
-import { useState } from "react";
-import ToggleButton from "./ui/toggleButton";
-import HeartFillIcon from "./ui/icons/HeartFillIcon";
-import BookmarkFillIcon from "./ui/icons/BookmarkFillIcon";
+import usePosts from "@/hooks/posts";
 import { SimplePost } from "@/model/post";
+import { parseDate } from "@/utill/date";
 import { useSession } from "next-auth/react";
-import { useSWRConfig } from "swr";
+import { useState } from "react";
+import BookmarkFillIcon from "./ui/icons/BookmarkFillIcon";
+import BookmarkIcon from "./ui/icons/BookmarkIcon";
+import HeartFillIcon from "./ui/icons/HeartFillIcon";
+import HeartIcon from "./ui/icons/HeartIcon";
+import ToggleButton from "./ui/toggleButton";
 
 type Props = {
   post: SimplePost;
@@ -23,12 +23,12 @@ export default function ActionBar({ post }: Props) {
 
   const [bookmarked, setBookmarked] = useState(false);
 
-  const { mutate } = useSWRConfig();
+  const { setLike } = usePosts();
+
   const handleLike = (like: boolean) => {
-    fetch("api/likes", {
-      method: "PUT",
-      body: JSON.stringify({ id, like }),
-    }).then(() => mutate("/api/posts"));
+    if (user) {
+      setLike(post, user.username, like);
+    }
   };
 
   return (
