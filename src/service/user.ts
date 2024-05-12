@@ -68,6 +68,10 @@ export async function getUserForProfile(username: string) {
       "posts": count(*[_type=="post" && author->username == "${username}"])
     }
     `,
+      undefined,
+      {
+        cache: "no-store",
+      },
     )
     .then((user) => ({
       ...user,
@@ -105,7 +109,7 @@ export async function follow(myId: string, targetId: string) {
         .setIfMissing({ following: [] })
         .append("following", [{ _ref: targetId, _type: "reference" }]),
     )
-    .patch(myId, (user) =>
+    .patch(targetId, (user) =>
       user
         .setIfMissing({ followers: [] })
         .append("followers", [{ _ref: myId, _type: "reference" }]),
