@@ -30,7 +30,7 @@ export default function useMe() {
         rollbackOnError: true,
       });
     },
-    [user, mutate]
+    [user, mutate],
   );
   return { user, isLoading, error, setBookmark };
 }

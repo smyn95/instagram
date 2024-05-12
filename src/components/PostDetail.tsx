@@ -43,7 +43,7 @@ export default function PostDetail({ post }: Props) {
                       <span>{comment}</span>
                     </div>
                   </li>
-                )
+                ),
               )}
           </ul>
           <ActionBar post={post} onComment={postComment} />

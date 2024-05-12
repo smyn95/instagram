@@ -33,7 +33,7 @@ export default function useFullPost(postId: string) {
         rollbackOnError: true,
       }).then(() => globalMutate(`/api/posts`));
     },
-    [post, mutate, globalMutate]
+    [post, mutate, globalMutate],
   );
   return { post, isLoading, error, postComment };
 }

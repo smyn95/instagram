@@ -41,7 +41,7 @@ export default function usePosts() {
         rollbackOnError: true,
       });
     },
-    [mutate, posts]
+    [mutate, posts],
   );
 
   const postComment = useCallback(
@@ -59,7 +59,7 @@ export default function usePosts() {
         rollbackOnError: true,
       });
     },
-    [posts, mutate]
+    [posts, mutate],
   );
   return { posts, isLoading, error, setLike, postComment };
 }
