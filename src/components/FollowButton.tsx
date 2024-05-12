@@ -39,13 +39,14 @@ export default function FollowButton({ user }: Props) {
   return (
     <>
       {showButton && (
-        <div>
+        <div className="relative">
           {isUpdating && (
-            <div>
+            <div className="absolute z-20 inset-0 flex justify-center items-center">
               <PulseLoader size={6} />
             </div>
           )}
           <Button
+            disabled={isUpdating}
             text={text}
             onClick={handleFollow}
             red={text === "Unfollow"}
