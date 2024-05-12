@@ -8,7 +8,7 @@ export async function PUT(req: NextRequest) {
   const user = session?.user;
 
   if (!user) {
-    return new Response("Unauthorized", { status: 401 });
+    return new Response("Authentication Error", { status: 401 });
   }
 
   const { id: targetId, follow: isFollow } = await req.json();
@@ -19,7 +19,7 @@ export async function PUT(req: NextRequest) {
 
   const request = isFollow ? follow : unFollow;
 
-  return request(targetId, user.id) //
+  return request(user.id, targetId) //
     .then((res) => NextResponse.json(res))
     .catch((error) => new Response(JSON.stringify(error), { status: 500 }));
 }

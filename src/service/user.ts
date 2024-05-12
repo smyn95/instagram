@@ -117,6 +117,6 @@ export async function unFollow(myId: string, targetId: string) {
   return client
     .transaction() //
     .patch(myId, (user) => user.unset([`following[_ref=="${targetId}"]`]))
-    .patch(targetId, (user) => user.unset([`following[_ref=="${myId}"]`]))
+    .patch(targetId, (user) => user.unset([`followers[_ref=="${myId}"]`]))
     .commit({ autoGenerateArrayKeys: true });
 }
