@@ -5,6 +5,7 @@ import Button from "./ui/Button";
 import PostUserAvatar from "./PostUserAvatar";
 import FilesIcon from "./ui/icons/FilesIcon";
 import { ChangeEvent, DragEvent, useState } from "react";
+import Image from "next/image";
 
 type Props = {
   user: AuthUser;
@@ -47,9 +48,9 @@ export default function NewPost({ user: { username, image } }: Props) {
 
   return (
     <>
-      <section>
+      <section className="w-full max-w-xl flex flex-col items-center mt-6">
         <PostUserAvatar username={username} image={image ?? ""} />
-        <form>
+        <form className="w-full flex flex-col mt-2 gap-5">
           <input
             className="hidden"
             name="input"
@@ -59,16 +60,38 @@ export default function NewPost({ user: { username, image } }: Props) {
             onChange={handleChange}
           />
           <label
+            className={`w-full h-60 flex flex-col items-center justify-center ${
+              !file && "border-2 border-sky-500 border-dashed"
+            }`}
             htmlFor="input-upload"
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
           >
-            <FilesIcon />
-            <p>Drag and Drop your image here or click</p>
+            {dragging && (
+              <div className="absolute inset-0 z-10 bg-sky-500/20 pointer-events-none" />
+            )}
+            {!file && (
+              <div className="flex flex-col items-center pointer-events-none">
+                <FilesIcon />
+                <p>Drag and Drop your image here or click</p>
+              </div>
+            )}
+            {file && (
+              <div className="relative w-full aspect-square">
+                <Image
+                  className="object-contain"
+                  src={URL.createObjectURL(file)}
+                  alt="local file"
+                  fill
+                  sizes="650px"
+                />
+              </div>
+            )}
           </label>
           <textarea
+            className="outline-none text-lg border border-neutral-300 resize-none p-5"
             name="text"
             id="input-text"
             required
