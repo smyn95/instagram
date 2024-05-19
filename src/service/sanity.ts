@@ -8,6 +8,9 @@ export const client = createClient({
   useCdn: false,
   apiVersion: "2024-01-08",
   token: process.env.NEXT_PUBLIC_SANITY_API_TOKEN,
+  fetch: {
+    cache: "no-store",
+  },
 });
 
 const builder = imageUrlBuilder(client);
