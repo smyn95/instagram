@@ -4,8 +4,10 @@ import { AuthUser } from "@/model/user";
 import Button from "./ui/Button";
 import PostUserAvatar from "./PostUserAvatar";
 import FilesIcon from "./ui/icons/FilesIcon";
-import { ChangeEvent, DragEvent, useState } from "react";
+import { ChangeEvent, DragEvent, FormEvent, useRef, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import GridSpinner from "./ui/GridSpinner";
 
 type Props = {
   user: AuthUser;
@@ -14,6 +16,10 @@ type Props = {
 export default function NewPost({ user: { username, image } }: Props) {
   const [dragging, setDragging] = useState(false);
   const [file, setFile] = useState<File>();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>();
+  const textRef = useRef<HTMLTextAreaElement>(null);
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -46,11 +52,48 @@ export default function NewPost({ user: { username, image } }: Props) {
     }
   };
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    if (!file) return;
+
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("text", textRef.current?.value ?? "");
+
+    fetch("/api/posts", {
+      method: "POST",
+      body: formData,
+    }) //
+      .then((res) => {
+        if (!res.ok) {
+          setError(`${res.status} ${res.statusText}`);
+          return;
+        }
+        router.push("/");
+        return res.json();
+      })
+      .catch((err) => setError(err.toString()))
+      .finally(() => setLoading(false));
+  };
   return (
     <>
       <section className="w-full max-w-xl flex flex-col items-center mt-6">
+        {loading && (
+          <div className="absolute inset-0 z-20 text-center pt-[30%] bg-sky-500/20">
+            <GridSpinner />
+          </div>
+        )}
+        {error && (
+          <p className="w-full bg-red-100 text-red-600 text-center p-4 mb-4 font-bold">
+            {error}
+          </p>
+        )}
         <PostUserAvatar username={username} image={image ?? ""} />
-        <form className="w-full flex flex-col mt-2 gap-5">
+        <form
+          className="w-full flex flex-col mt-2 gap-5"
+          onSubmit={handleSubmit}
+        >
           <input
             className="hidden"
             name="input"
@@ -97,6 +140,7 @@ export default function NewPost({ user: { username, image } }: Props) {
             required
             rows={10}
             placeholder={"Write a caption..."}
+            ref={textRef}
           />
           <Button text="Publish" onClick={() => {}} />
         </form>
