@@ -3,7 +3,7 @@ import { AuthUser } from "@/model/user";
 import { getServerSession } from "next-auth";
 
 export async function withSessionUser(
-  handler: (user: AuthUser) => Promise<Response> //
+  handler: (user: AuthUser) => Promise<Response>, //
 ): Promise<Response> {
   const session = await getServerSession(authOptions);
   const user = session?.user;

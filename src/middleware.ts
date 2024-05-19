@@ -13,7 +13,7 @@ export async function middleware(req: NextRequest) {
     const signInUrl = new URL(`${basePath}/auth/signin`, origin);
     signInUrl.searchParams.append(
       "callbackUrl",
-      `${basePath}${pathname}${search}`
+      `${basePath}${pathname}${search}`,
     );
     return NextResponse.redirect(signInUrl);
   }
